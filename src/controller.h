@@ -4,8 +4,8 @@
 #include <AccelStepper.h>
 #include <driver.h>
 
-#define MAX_SPEED        200 * MICROSTEPS // Maximum speed in steps per second
-#define MAX_ACCELERATION 200 * MICROSTEPS
+#define MAX_SPEED        2000//1600 // Maximum speed in steps per second
+#define MAX_ACCELERATION 5000//5000
 
 AccelStepper stepper(AccelStepper::DRIVER, STEP_PIN, DIR_PIN);
 

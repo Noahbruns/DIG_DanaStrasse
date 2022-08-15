@@ -26,5 +26,5 @@ bool ramp_light_sensor()
         Serial.println();
     }*/
 
-    return (s1 < LIGHT_SENSOR_THRESHOLD) && (s2 < LIGHT_SENSOR_THRESHOLD);
+    return false; //(s1 < LIGHT_SENSOR_THRESHOLD) && (s2 < LIGHT_SENSOR_THRESHOLD);
 }

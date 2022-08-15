@@ -14,6 +14,8 @@
 
 #define MICROSTEPS 16
 
+#define CHOPPER_TIMING 3 4 1
+
 #define R_SENSE 0.11f // Match to your driver
                       // SilentStepStick series use 0.11
                       // UltiMachine Einsy and Archim2 boards use 0.2
@@ -51,14 +53,14 @@ bool is_stalled()
             counter = 0;
             return false; //true;
         }
-    }
+    }*/
 
     if ((ms - last_time) > 10)
     { // run every 0.1s
         last_time = ms;
 
-        Serial.println(drv_status.sg_result, DEC);
-    }*/
+        Serial.println(digitalRead(DIAG_PIN));
+    }
 
     return false; // drv_status.sg_result == 0;
 }

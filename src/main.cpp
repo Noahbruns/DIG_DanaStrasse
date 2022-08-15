@@ -19,19 +19,24 @@ void setup() {
 
   // Enable one according to your setup
   SPI.begin();                    // SPI drivers
-  //SERIAL_PORT.begin(115200);      // HW UART drivers
-  //driver.beginSerial(115200);     // SW UART drivers
+  pinMode(MISO, INPUT_PULLUP);
 
   driver.begin();                 //  SPI: Init CS pins and possible SW SPI pins
                                   // UART: Init SW UART (if selected) with default 115200 baudrate
   driver.toff(4);                 // Enables driver in software
   driver.blank_time(24);          // Set blank time to 24 microseconds
   driver.rms_current(600);        // Set motor RMS current
-  driver.microsteps(MICROSTEPS);          // Set microsteps to 1/16th
+  driver.microsteps(MICROSTEPS);          // Set microsteps
 
   driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   //driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
   driver.pwm_autoscale(true);     // Needed for stealthChop
+
+  driver.stealthChop(1);          // Enable extremely quiet stepping
+  driver.stealth_autoscale(1);
+
+  driver.diag1_stall(1);        // Enable stall detection
+  driver.diag1_active_high(1);  // Set active high
 
   // activate the stall guard
   driver.TCOOLTHRS(0xFFFFF); // 20bit max

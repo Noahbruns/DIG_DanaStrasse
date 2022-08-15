@@ -2,7 +2,7 @@
 #define DRIVER_H
 
 #include <TMC2130Stepper.h>
-//#include <TMC2130Stepper_REGDEFS.h>
+#include <TMC2130Stepper_REGDEFS.h>
 
 #define EN_PIN 10  // Enable
 #define DIR_PIN 5  // Direction
@@ -12,9 +12,9 @@
 
 #define STALL_VALUE 25 // [0..255]
 
-#define MICROSTEPS 16
+#define MICROSTEPS 8
 
-#define CHOPPER_TIMING 3 4 1
+#define CHOPPER_TIMING 3 - 2 1
 
 #define R_SENSE 0.11f // Match to your driver
                       // SilentStepStick series use 0.11
@@ -23,6 +23,11 @@
                       // Watterott TMC5160 uses 0.075
 
 TMC2130Stepper driver(CS_PIN); // Hardware SPI
+
+bool vsense = true;
+uint16_t rms_current(uint8_t CS, float Rsense = 0.11) {
+  return (float)(CS+1)/32.0 * (vsense?0.180:0.325)/(Rsense+0.02) / 1.41421 * 1000;
+}
 
 bool is_stalled()
 {
@@ -51,16 +56,19 @@ bool is_stalled()
         if (counter > 50)
         {
             counter = 0;
-            return false; //true;
+            return false; // true;
         }
     }*/
 
-    if ((ms - last_time) > 10)
-    { // run every 0.1s
+    /*if ((ms - last_time) > 100) // run every 0.1s
+    {
         last_time = ms;
-
-        Serial.println(digitalRead(DIAG_PIN));
-    }
+        uint32_t drv_status = driver.DRV_STATUS();
+        Serial.print("0 ");
+        Serial.print((drv_status & SG_RESULT_bm) >> SG_RESULT_bp, DEC);
+        Serial.print(" ");
+        Serial.println(rms_current((drv_status & CS_ACTUAL_bm) >> CS_ACTUAL_bp), DEC);
+    }*/
 
     return false; // drv_status.sg_result == 0;
 }

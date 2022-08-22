@@ -1,8 +1,7 @@
 #include <Arduino.h>
 
-#define LS_RAMP_1_PIN A0
-#define LS_RAMP_2_PIN A1
-#define LS_END_PIN A1
+#define LS_RAMP_1_PIN A1
+#define LS_END_PIN A0
 
 #define LIGHT_SENSOR_THRESHOLD 100
 #define LASER_SENSOR_THRESHOLD 1012

@@ -100,4 +100,6 @@ void loop()
 
   // Execute the Stepper Controller
   stepper.run();
+
+  //debug();
 }

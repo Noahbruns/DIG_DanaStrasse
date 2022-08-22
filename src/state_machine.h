@@ -13,7 +13,7 @@
 
 #define RUN_DISTANCE 16500
 #define UNLOAD_DISTANCE 6000
-#define POST_UNLOAD_DISTANCE 1000
+#define POST_UNLOAD_DISTANCE 1480
 
 StateMachine machine = StateMachine();
 
@@ -127,6 +127,12 @@ bool hold_unload_transition()
   return !ramp_light_sensor();
 }
 
+bool hold_run_transition()
+{
+  // check if light sensor is triggered or motor is at end
+  return !end_light_sensor();
+}
+
 bool unload_post_unload_transition()
 {
   // check if light sensor is triggered or motor is at end
@@ -159,6 +165,7 @@ void register_transitions()
   RUNNING->addTransition(&run_waiting_transition, WAITING);
   RUNNING->addTransition(&run_hold_transition, HOLD);
   HOLD->addTransition(&hold_unload_transition, UNLOAD);
+  HOLD->addTransition(&hold_run_transition, RUNNING);
 
   UNLOAD->addTransition(&unload_post_unload_transition, POST_UNLOAD);
 
